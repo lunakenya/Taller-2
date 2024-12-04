@@ -32,4 +32,4 @@ jobs:
             docker pull luna28kenya412/my-htmlqa1-app:latest
             docker stop my_container || true
             docker rm my_container || true
-            docker run -d --name my_container -p 80:80 luna28kenya412/my-htmlqa1-app:latest
+            docker run -d --name my_container -p 8080:8080 luna28kenya412/my-htmlqa1-app:latest
