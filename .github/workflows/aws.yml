@@ -18,11 +18,11 @@ jobs:
       - name: Publish image to Docker Hub
         run: docker push luna28kenya412/my-htmlqa1-app:latest
 
-  deploy-to-ec2:
+  deploy-to-ec2-instance1:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to EC2
+      - name: Deploy to EC2 (Instance 1)
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -30,6 +30,22 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             docker pull luna28kenya412/my-htmlqa1-app:latest
-            docker stop my_container || true
-            docker rm my_container || true
-            docker run -d --name my_container -p 8080:80 luna28kenya412/my-htmlqa1-app:latest
+            docker stop my_container_instance1 || true
+            docker rm my_container_instance1 || true
+            docker run -d --name my_container_instance1 -p 8080:80 luna28kenya412/my-htmlqa1-app:latest
+
+  deploy-to-ec2-instance2:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2 (Instance 2)
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST1 }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_PRIVATE_KEY1 }}
+          script: |
+            docker pull luna28kenya412/my-htmlqa1-app:latest
+            docker stop my_container_instance2 || true
+            docker rm my_container_instance2 || true
+            docker run -d --name my_container_instance2 -p 8081:80 luna28kenya412/my-htmlqa1-app:latest
